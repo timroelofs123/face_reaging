@@ -38,7 +38,8 @@ In the example below it is visible how, compared to SAM, the model is able to pr
 
 
 ## Pre-trained model
-The trained model can be downloaded from HuggingFace **LINK**. This model can be tested with the two Gradio demos. 
+The trained model can be downloaded from [HuggingFace](https://huggingface.co/timroelofs123/face_re-aging); The `best_unet_model.pth` is the model in question. 
+This model can be tested with the two Gradio demos. 
 
 In the first demo, one can input an image with a source age (age of the person pictured) and a target age. This demo can be accessed on HuggingFace here **LINK**, 
 or be run locally by downloading the model and running the `scripts/gradio_demo_img.py` script.
@@ -61,5 +62,8 @@ The training script is available in this repo, together with the training parame
 In order to train the model from scratch using the available files, one would need to put the training data in `data/processed/train`. 
 The training dataset should consist of folders where each folder contains images of one person, where the filename indicates the age, 
 e.g. `person1/10.jpg` is _person1_ at age 10 and `person1/20.jpg` is the same person at age 20.
+
+To finetune a model using the pre-trained models, one can download the U-Net and discriminator models from [HuggingFace](https://huggingface.co/timroelofs123/face_re-aging).
+
 
 
