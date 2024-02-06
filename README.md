@@ -47,9 +47,13 @@ In the second demo, one does not have to specify a target age: Instead, a video 
 This demo can be accessed on HuggingFace here **LINK**, 
 or be run locally by downloading the model and running the `scripts/gradio_demo_vid.py` script.
 
-<img src="assets/docs/ex1.gif" width="200">
-<img src="assets/docs/ex2.gif" width="200">
-<img src="assets/docs/ex3.gif" width="200">
+<table>
+    <tr>
+        <td><img src="assets/docs/ex1.gif" width="200"></td>
+        <td><img src="assets/docs/ex2.gif" width="200"></td>
+        <td><img src="assets/docs/ex3.gif" width="200"></td>
+    </tr>
+</table>
 
 
 ## Model re-training
