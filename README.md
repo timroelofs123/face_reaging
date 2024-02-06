@@ -13,6 +13,11 @@ and the (approximate) age of the person to generate the same image of the person
 
 <img src="assets/docs/ex4.gif" width="600">
 
+Try it out yourself!
+
+<a href="https://colab.research.google.com/github/timroelofs123/face_reaging/blob/main/notebooks/gradio_demos.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" height=22.5/></a>
+<a href="https://huggingface.co/timroelofs123/face_re-aging" target="_parent"><img src="https://huggingface.co/datasets/huggingface/badges/resolve/main/model-on-hf-md.svg" alt="Model on Hugging Face" height=22.5/></a>
+<a href="https://huggingface.co/spaces/timroelofs123/face_re-aging_img" target="_parent"><img src="https://huggingface.co/datasets/huggingface/badges/resolve/main/deploy-on-spaces-md.svg" alt="Deploy on HF Spaces" height=22.5/></a>
 
 
 ## Method
@@ -37,15 +42,20 @@ In the example below it is visible how, compared to SAM, the model is able to pr
 </table>
 
 
-## Pre-trained model
-The trained model can be downloaded from [Hugging Face](https://huggingface.co/timroelofs123/face_re-aging); The `best_unet_model.pth` is the model in question. 
+## Pre-trained model 
+
+The trained model can be downloaded from [Hugging Face](https://huggingface.co/timroelofs123/face_re-aging);
+The `best_unet_model.pth` is the model in question. 
 This model can be tested with the two Gradio demos. 
 
-In the first demo, one can input an image with a source age (age of the person pictured) and a target age. This demo can be accessed on [Hugging Face](https://huggingface.co/spaces/timroelofs123/face_re-aging_img) (unfortunately this is quite slow as it runs on CPU), 
+In the first demo, one can input an image with a source age (age of the person pictured) and a target age. This demo can be accessed on [Hugging Face](https://huggingface.co/spaces/timroelofs123/face_re-aging_img) 
+(unfortunately this is quite slow as it runs on CPU), 
 or be run locally by downloading the model and running the `scripts/gradio_demo_img.py` script.
 
 In the second demo, one does not have to specify a target age: Instead, a video will be shown where we cycle through the target age between 10 - 95. 
 This demo can be run locally by downloading the model and running the `scripts/gradio_demo_vid.py` script.
+
+Both demos can also be run on [Google Colab](https://colab.research.google.com/github/timroelofs123/face_reaging/blob/main/notebooks/gradio_demos.ipynb). 
 
 <table>
     <tr>
