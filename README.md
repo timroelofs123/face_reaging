@@ -38,15 +38,14 @@ In the example below it is visible how, compared to SAM, the model is able to pr
 
 
 ## Pre-trained model
-The trained model can be downloaded from [HuggingFace](https://huggingface.co/timroelofs123/face_re-aging); The `best_unet_model.pth` is the model in question. 
+The trained model can be downloaded from [Hugging Face](https://huggingface.co/timroelofs123/face_re-aging); The `best_unet_model.pth` is the model in question. 
 This model can be tested with the two Gradio demos. 
 
-In the first demo, one can input an image with a source age (age of the person pictured) and a target age. This demo can be accessed on HuggingFace here **LINK**, 
+In the first demo, one can input an image with a source age (age of the person pictured) and a target age. This demo can be accessed on [Hugging Face](https://huggingface.co/spaces/timroelofs123/face_re-aging_img) (unfortunately this is quite slow as it runs on CPU), 
 or be run locally by downloading the model and running the `scripts/gradio_demo_img.py` script.
 
 In the second demo, one does not have to specify a target age: Instead, a video will be shown where we cycle through the target age between 10 - 95. 
-This demo can be accessed on HuggingFace here **LINK**, 
-or be run locally by downloading the model and running the `scripts/gradio_demo_vid.py` script.
+This demo can be run locally by downloading the model and running the `scripts/gradio_demo_vid.py` script.
 
 <table>
     <tr>
@@ -63,7 +62,7 @@ In order to train the model from scratch using the available files, one would ne
 The training dataset should consist of folders where each folder contains images of one person, where the filename indicates the age, 
 e.g. `person1/10.jpg` is _person1_ at age 10 and `person1/20.jpg` is the same person at age 20.
 
-To finetune a model using the pre-trained models, one can download the U-Net and discriminator models from [HuggingFace](https://huggingface.co/timroelofs123/face_re-aging).
+To finetune a model using the pre-trained models, one can download the U-Net and discriminator models from [Hugging Face](https://huggingface.co/timroelofs123/face_re-aging).
 
 
 
