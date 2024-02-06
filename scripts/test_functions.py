@@ -8,15 +8,16 @@ from torchvision.io import write_video
 import tempfile
 
 mask_file = torch.from_numpy(np.array(Image.open('assets/mask1024.jpg').convert('L'))) / 255
+small_mask_file = torch.from_numpy(np.array(Image.open('assets/mask512.jpg').convert('L'))) / 255
 
-
-def sliding_window_tensor(input_tensor, window_size, stride, your_model, mask=mask_file):
+def sliding_window_tensor(input_tensor, window_size, stride, your_model, mask=mask_file, small_mask=small_mask_file):
     """
     Apply aging operation on input tensor using a sliding-window method. This operation is done on the GPU, if available.
     """
 
     input_tensor = input_tensor.to(next(your_model.parameters()).device)
     mask = mask.to(next(your_model.parameters()).device)
+    small_mask = small_mask.to(next(your_model.parameters()).device)
 
     n, c, h, w = input_tensor.size()
     output_tensor = torch.zeros((n, 3, h, w), dtype=input_tensor.dtype, device=input_tensor.device)
@@ -36,8 +37,8 @@ def sliding_window_tensor(input_tensor, window_size, stride, your_model, mask=ma
             with torch.no_grad():
                 output = your_model(input_variable)
 
-            output_tensor[:, :, y:y + window_size, x:x + window_size] += output
-            count_tensor[:, :, y:y + window_size, x:x + window_size] += 1
+            output_tensor[:, :, y:y + window_size, x:x + window_size] += output * small_mask
+            count_tensor[:, :, y:y + window_size, x:x + window_size] += small_mask
 
     count_tensor = torch.clamp(count_tensor, min=1.0)
 
@@ -63,6 +64,12 @@ def process_image(your_model, image, video, source_age, target_age=0,
 
     # image = face_recognition.load_image_file(filename)
     image = np.array(image)
+    if video:  # h264 codec requires frame size to be divisible by 2.
+        width, height, depth = image.shape
+        new_width = width if width % 2 == 0 else width - 1
+        new_height = height if height % 2 == 0 else height - 1
+        image.resize((new_width, new_height, depth))
+
     fl = face_recognition.face_locations(image)[0]
 
     # calculate margins
@@ -94,7 +101,7 @@ def process_image(your_model, image, video, source_age, target_age=0,
 
     if video:
         # aging in steps
-        interval = 1 / steps
+        interval = .8 / steps
         aged_cropped_images = torch.zeros((steps, 3, input_size[1], input_size[0]))
         for i in range(0, steps):
             input_tensor[:, -1, :, :] += interval

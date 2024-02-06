@@ -28,8 +28,12 @@ def run(model_path):
         ],
         outputs="image",
         examples=[
-            ['assets/gradio_example_images/1.webp', 20, 80],
-            ['assets/gradio_example_images/2.webp', 80, 30]
+            ['assets/gradio_example_images/1.png', 20, 80],
+            ['assets/gradio_example_images/2.png', 75, 40],
+            ['assets/gradio_example_images/3.png', 30, 70],
+            ['assets/gradio_example_images/4.png', 22, 60],
+            ['assets/gradio_example_images/5.png', 28, 75],
+            ['assets/gradio_example_images/6.png', 35, 15]
         ],
     )
 
