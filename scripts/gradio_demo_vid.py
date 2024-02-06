@@ -12,7 +12,7 @@ from scripts.test_functions import process_image
 def run(model_path):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     unet_model = UNet().to(device)
-    unet_model.load_state_dict(torch.load(model_path))
+    unet_model.load_state_dict(torch.load(model_path, map_location=device))
     unet_model.eval()
 
     def block(image, source_age):

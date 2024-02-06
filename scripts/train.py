@@ -52,10 +52,10 @@ def train_model(root_dir, start_epoch, num_epochs, load_model_g, load_model_d, n
     discriminator_model = PatchGANDiscriminator(input_channels=4)
 
     if load_model_g:
-        unet_model.load_state_dict(torch.load(load_model_g))
+        unet_model.load_state_dict(torch.load(load_model_g, map_location=device))
         print(f'loaded {load_model_g} for unet_model')
     if load_model_d:
-        discriminator_model.load_state_dict(torch.load(load_model_d))
+        discriminator_model.load_state_dict(torch.load(load_model_d, map_location=device))
         print(f'loaded {load_model_d} for discriminator_model')
 
     unet_model = unet_model.to(device)
