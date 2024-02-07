@@ -4,4 +4,5 @@ antialiased_cnns
 lpips
 face_recognition
 ffmpy
+av
 gradio
