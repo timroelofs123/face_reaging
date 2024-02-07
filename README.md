@@ -23,9 +23,9 @@ Although trained on images, the method can also be applied to frames in a video:
         <th>Model output: Aged 60</th>
     </tr>
     <tr>
-        <td><img src="assets/docs/vid20.gif" width="400"></td>
-        <td><img src="assets/docs/vid35orig.gif" width="400"></td>
-        <td><img src="assets/docs/vid60.gif" width="400"></td>
+        <td><img src="assets/docs/vid20.gif" width="250"></td>
+        <td><img src="assets/docs/vid35orig.gif" width="250"></td>
+        <td><img src="assets/docs/vid60.gif" width="250"></td>
     </tr>
 </table>
 
@@ -75,6 +75,8 @@ This demo can be run locally by downloading the model and running the `scripts/g
 Both demos can also be run on [Google Colab](https://colab.research.google.com/github/timroelofs123/face_reaging/blob/main/notebooks/gradio_demos.ipynb). 
 
 <table>
+    <tr>
+        <th colspan="3">Photos cycling through target ages 10 - 95, made with the animation demo.</th>
     <tr>
         <td><img src="assets/docs/ex1.gif" width="200"></td>
         <td><img src="assets/docs/ex2.gif" width="200"></td>
