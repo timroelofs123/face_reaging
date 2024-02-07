@@ -88,7 +88,7 @@ def run(model_path):
                               title="Face Re-Aging Demo",
                               )
 
-    demo.launch()
+    demo.launch(debug=True)
 
 
 if __name__ == "__main__":
