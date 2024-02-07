@@ -1,11 +1,15 @@
 import face_recognition
 import numpy as np
-from PIL import Image
+import os
 import torch
 from torch.autograd import Variable
 from torchvision import transforms
 from torchvision.io import write_video
 import tempfile
+import subprocess
+import json
+from ffmpy import FFmpeg, FFprobe
+from PIL import Image
 
 mask_file = torch.from_numpy(np.array(Image.open('assets/mask1024.jpg').convert('L'))) / 255
 small_mask_file = torch.from_numpy(np.array(Image.open('assets/mask512.jpg').convert('L'))) / 255
@@ -139,3 +143,60 @@ def process_image(your_model, image, video, source_age, target_age=0,
         image = torch.clamp(image, 0, 1)
 
         return transforms.functional.to_pil_image(image)
+
+
+def process_video(your_model, video_path, source_age, target_age, window_size=512, stride=256, frame_count=0):
+    """
+    Applying the aging to a video.
+    We age as from source_age to target_age, and return an image.
+    To limit the number of frames in a video, we can set frame_count.
+    """
+
+    # Extracting frames and placing them in a temporary directory
+    frames_dir = tempfile.TemporaryDirectory()
+    output_template = os.path.join(frames_dir.name, '%04d.jpg')
+
+    if frame_count:
+        ff = FFmpeg(
+            inputs={video_path: None},
+            outputs={output_template: ['-vf', f'select=lt(n\,{frame_count})', '-q:v', '1']}
+        )
+    else:
+        ff = FFmpeg(
+            inputs={video_path: None},
+            outputs={output_template: ['-q:v', '1']}
+        )
+
+    ff.run()
+
+    # Getting framerate (for reconstruction later)
+    ff = FFprobe(inputs={video_path: None},
+                 global_options=['-v', 'error', '-select_streams', 'v', '-show_entries', 'stream=r_frame_rate', '-of',
+                                 'default=noprint_wrappers=1:nokey=1'])
+    stdout, _ = ff.run(stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    frame_rate = eval(stdout.decode('utf-8').strip())
+
+
+    # Applying process_image to frames
+    processed_dir = tempfile.TemporaryDirectory()
+
+    for name in os.listdir(frames_dir.name):
+        image_path = os.path.join(frames_dir.name, name)
+        image = Image.open(image_path).convert('RGB')
+        image_aged = process_image(your_model, image, False, source_age, target_age, window_size, stride)
+        image_aged.save(os.path.join(processed_dir.name, name))
+
+    # Generating a new video
+    input_template = os.path.join(processed_dir.name, '%04d.jpg')
+    output_file = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False)
+    ff = FFmpeg(
+        inputs={input_template: f'-framerate {frame_rate}'}, global_options=['-y'],
+        outputs={output_file.name: ['-c:v', 'libx264', '-pix_fmt', 'yuv420p']}
+    )
+
+    ff.run()
+
+    frames_dir.cleanup()
+    processed_dir.cleanup()
+
+    return output_file.name
