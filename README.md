@@ -13,6 +13,23 @@ and the (approximate) age of the person to generate the same image of the person
 
 <img src="assets/docs/ex4.gif" width="600">
 
+
+Although trained on images, the method can also be applied to frames in a video:
+
+<table>
+    <tr>
+        <th>Model output: Aged 20</th>
+        <th>Original: Aged ~35</th>
+        <th>Model output: Aged 60</th>
+    </tr>
+    <tr>
+        <td><img src="assets/docs/vid20.gif" width="400"></td>
+        <td><img src="assets/docs/vid35orig.gif" width="400"></td>
+        <td><img src="assets/docs/vid60.gif" width="400"></td>
+    </tr>
+</table>
+
+
 Try it out yourself!
 
 <a href="https://colab.research.google.com/github/timroelofs123/face_reaging/blob/main/notebooks/gradio_demos.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" height=22.5/></a>
