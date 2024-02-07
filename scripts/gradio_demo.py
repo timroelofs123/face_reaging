@@ -6,8 +6,13 @@ import sys
 sys.path.append(".")
 
 from model.models import UNet
-from scripts.test_functions import process_image
+from scripts.test_functions import process_image, process_video
 
+# default settings
+window_size = 512
+stride = 256
+steps = 18
+frame_count = 0
 
 def run(model_path):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -17,11 +22,15 @@ def run(model_path):
 
     def block_img(image, source_age, target_age):
         return process_image(unet_model, image, video=False, source_age=source_age,
-                             target_age=target_age, window_size=512, stride=256)
+                             target_age=target_age, window_size=window_size, stride=stride)
 
-    def block_vid(image, source_age):
+    def block_img_vid(image, source_age):
         return process_image(unet_model, image, video=True, source_age=source_age,
-                             target_age=0, window_size=512, stride=256, steps=18)
+                             target_age=0, window_size=window_size, stride=stride, steps=steps)
+
+    def block_vid(video_path, source_age, target_age):
+        return process_video(unet_model, video_path, source_age, target_age,
+                             window_size=window_size, stride=stride, frame_count=frame_count)
 
     demo_img = gr.Interface(
         fn=block_img,
@@ -42,8 +51,8 @@ def run(model_path):
         description="Input an image of a person and age them from the source age to the target age."
     )
 
-    demo_vid = gr.Interface(
-        fn=block_vid,
+    demo_img_vid = gr.Interface(
+        fn=block_img_vid,
         inputs=[
             gr.Image(type="pil"),
             gr.Slider(10, 90, value=20, step=1, label="Current age", info="Choose your current age"),
@@ -60,7 +69,22 @@ def run(model_path):
         description="Input an image of a person and a video will be returned of the person at different ages."
     )
 
-    demo = gr.TabbedInterface([demo_img, demo_vid], tab_names=['Inference demo', 'animation demo'],
+    demo_vid = gr.Interface(
+        fn=block_vid,
+        inputs=[
+            gr.Video(),
+            gr.Slider(10, 90, value=20, step=1, label="Current age", info="Choose your current age"),
+            gr.Slider(10, 90, value=80, step=1, label="Target age", info="Choose the age you want to become")
+        ],
+        outputs=gr.Video(),
+        examples=[
+            ['assets/gradio_example_images/orig.mp4', 35, 60],
+        ],
+        description="Input a video of a person, and it will be aged frame-by-frame."
+    )
+
+    demo = gr.TabbedInterface([demo_img, demo_img_vid, demo_vid],
+                              tab_names=['Image inference demo', 'Image animation demo', 'Video inference demo'],
                               title="Face Re-Aging Demo",
                               )
 

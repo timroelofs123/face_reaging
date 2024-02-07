@@ -3,4 +3,5 @@ torchvision
 antialiased_cnns
 lpips
 face_recognition
+ffmpy
 gradio
