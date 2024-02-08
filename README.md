@@ -1,8 +1,10 @@
 # Re-aging of faces
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" height=22.5></a>
 
-This repo presents an open-source re-aging method.
+This repo presents an open-source re-aging method for aging faces. You can try it out yourself on [Hugging Face 🤗](https://huggingface.co/spaces/timroelofs123/face_re-aging_img):
 
+<a href="https://huggingface.co/spaces/timroelofs123/face_re-aging_img" target="_parent"><img src="https://huggingface.co/datasets/huggingface/badges/resolve/main/deploy-on-spaces-lg.svg" alt="Deploy on HF Spaces"/></a>
+ 
 Re-aging is increasingly used in the film industry and commercial applications like TikTok and FaceApp. With this, there is 
 also an increased interest in the application of Generative AI to this use-case. Such a method is presented here, largely based on Disney Research's
 ["Production-Ready Face Re-Aging for Visual Effects"](https://studios.disneyresearch.com/2022/11/30/production-ready-face-re-aging-for-visual-effects/) paper, 
@@ -12,7 +14,6 @@ The method only requires an image (or video frame)
 and the (approximate) age of the person to generate the same image of the person looking older or younger. 
 
 <img src="assets/docs/ex4.gif" width="600">
-
 
 Although trained on images, the method can also be applied to frames in a video:
 
@@ -29,8 +30,8 @@ Although trained on images, the method can also be applied to frames in a video:
     </tr>
 </table>
 
-
-Try it out yourself!
+You can find all training and testing scripts in this repository. 
+Next to the Hugging Face demo, you can try the demos on Google Colab, or by downloading the model.
 
 <a href="https://colab.research.google.com/github/timroelofs123/face_reaging/blob/main/notebooks/gradio_demos.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" height=22.5/></a>
 <a href="https://huggingface.co/timroelofs123/face_re-aging" target="_parent"><img src="https://huggingface.co/datasets/huggingface/badges/resolve/main/model-on-hf-md.svg" alt="Model on Hugging Face" height=22.5/></a>
@@ -63,20 +64,17 @@ In the example below it is visible how, compared to SAM, the model is able to pr
 
 The trained model can be downloaded from [Hugging Face](https://huggingface.co/timroelofs123/face_re-aging);
 The `best_unet_model.pth` is the model in question. 
-This model can be tested with the two Gradio demos. 
+This model can be tested with the Gradio demos, available on Hugging Face and on Google Colab. 
 
-In the first demo, one can input an image with a source age (age of the person pictured) and a target age. This demo can be accessed on [Hugging Face](https://huggingface.co/spaces/timroelofs123/face_re-aging_img) 
-(unfortunately this is quite slow as it runs on CPU), 
-or be run locally by downloading the model and running the `scripts/gradio_demo_img.py` script.
+- **Image Inference Demo**: In this demo, one can input an image with a source age (age of the person pictured) and a target age. 
+- **Image Animation Demo**: In this demo, one does not have to specify a target age: Instead, a video will be shown where we cycle through the target age between 10 - 95.
+- **Video Inference Demo**: In this demo, one can apply the model onto a video. The video is processed frame-by-frame. 
 
-In the second demo, one does not have to specify a target age: Instead, a video will be shown where we cycle through the target age between 10 - 95. 
-This demo can be run locally by downloading the model and running the `scripts/gradio_demo_vid.py` script.
 
-Both demos can also be run on [Google Colab](https://colab.research.google.com/github/timroelofs123/face_reaging/blob/main/notebooks/gradio_demos.ipynb). 
 
 <table>
     <tr>
-        <th colspan="3">Photos cycling through target ages 10 - 95, made with the animation demo.</th>
+        <th colspan="3">Photos cycling through target ages 10 - 95, made with the Image Animation Demo.</th>
     <tr>
         <td><img src="assets/docs/ex1.gif" width="200"></td>
         <td><img src="assets/docs/ex2.gif" width="200"></td>
